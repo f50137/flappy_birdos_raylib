@@ -120,6 +120,7 @@ void physics_tick(Game *game) {
 
 	if(front_tube->x < BIRD_OFFSET + BIRD_SIZE && front_tube->x + TUBE_WIDTH > BIRD_OFFSET) {
 		if(bird->pos_y < front_tube->y1 || bird->pos_y + BIRD_SIZE > front_tube->y2) {
+			printf("Your score was: %d\n", game->score);
 			reset_game(game);
 		}
 	}
@@ -134,6 +135,14 @@ void render_tube(Tube *tube) {
 	DrawRectangle(tube->x, tube->y2, TUBE_WIDTH, WINDOW_HEIGHT - tube->y2, GREEN_COLOR);	
 }
 
+void render_score(int score) {
+	char score_string[23];
+
+	sprintf(score_string, "%d", score);
+
+	DrawText(score_string, 23, 23, 23, WHITE);
+}
+
 void render(Game *game) {
 	BeginDrawing();
 		ClearBackground(BACKGROUND_COLOR);
@@ -143,6 +152,8 @@ void render(Game *game) {
 			render_tube(&game->tubes[i]);
 		}
 		render_bird(&game->bird);
+		render_score(game->score);
+		//DrawFPS(23, 23);
 	EndDrawing();
 }
 
